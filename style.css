@@ -55,36 +55,16 @@ body {
 }
 
 /* ══════════════════════════════════════
-   BACK-TO-KELLINNOVATIONS BAR (small strip above the brand nav —
-   Kelleher Heartwood is its own site now, this is just a quiet breadcrumb
-   back to the parent site, not a full nav of pages that live elsewhere)
-══════════════════════════════════════ */
-.kb-back-bar {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  text-align: center;
-  padding: 8px clamp(16px, 5vw, 48px);
-}
-
-.kb-back-bar a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  transition: color 0.2s ease;
-}
-
-.kb-back-bar a:hover {
-  color: var(--accent);
-}
-
-/* ══════════════════════════════════════
    BRAND SUB-NAV (Home / Gallery / Shop — the Kelleher Heartwood site nav)
 ══════════════════════════════════════ */
 .brand-nav {
-  background: var(--bg2);
+  background: rgba(20, 16, 9, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .brand-nav-inner {
