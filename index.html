@@ -17,6 +17,7 @@
       <a href="index.html" class="active">Home</a>
       <a href="gallery.html">Gallery</a>
       <a href="shop.html">Shop</a>
+      <a href="index.html#reviews">Reviews</a>
       <a href="index.html#contact">Contact</a>
     </div>
   </nav>
@@ -96,6 +97,65 @@
             </div>
           </div>
           <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ Reviews ══ -->
+    <section id="reviews" class="section">
+      <div class="container">
+        <div class="section-header centered">
+          <h2>What People Are Saying</h2>
+          <p class="subtitle">Real feedback from real projects.</p>
+        </div>
+
+        <div class="reviews-grid">
+          <!--
+            TO ADD A VERIFIED REVIEW: once you've checked a submission, copy
+            this block in (delete the .reviews-empty <p> below once you have
+            at least one real review):
+
+            <div class="review-card">
+              <div class="review-stars">★★★★★</div>
+              <p class="review-text">"Quote from the customer's review text goes here."</p>
+              <p class="review-author">— Name<span class="review-piece"> · Wine Rack</span></p>
+            </div>
+          -->
+          <p class="reviews-empty">No reviews yet — be the first to share your experience below!</p>
+        </div>
+
+        <div class="contact-card">
+          <h3 class="review-form-title">Leave a Review</h3>
+          <form id="reviewForm" class="contact-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="r-name">Name</label>
+                <input type="text" id="r-name" name="name" required>
+              </div>
+              <div class="form-field">
+                <label for="r-rating">Rating</label>
+                <select id="r-rating" name="rating" required>
+                  <option value="" disabled selected>Select...</option>
+                  <option value="5 stars">★★★★★ &mdash; Excellent</option>
+                  <option value="4 stars">★★★★ &mdash; Great</option>
+                  <option value="3 stars">★★★ &mdash; Good</option>
+                  <option value="2 stars">★★ &mdash; Fair</option>
+                  <option value="1 star">★ &mdash; Poor</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="r-piece">What did you get? (optional)</label>
+              <input type="text" id="r-piece" name="piece" placeholder="e.g. Wine Rack, Custom Coffee Table">
+            </div>
+            <div class="form-field">
+              <label for="r-review">Your Review</label>
+              <textarea id="r-review" name="review" rows="4" required placeholder="Tell others about your experience."></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="reviewSubmitBtn">Submit Review</button>
+            <p class="form-msg" id="reviewFormMsg"></p>
+          </form>
+          <p class="review-form-note">Reviews are checked before being posted publicly &mdash; thanks for your patience!</p>
         </div>
       </div>
     </section>
@@ -226,6 +286,44 @@ contactForm.addEventListener('submit', async e => {
     formMsg.className = 'form-msg err';
   } finally {
     contactSubmitBtn.disabled = false;
+  }
+});
+
+/* ----- REVIEW FORM (Formspree) ----- */
+// TODO: create a new form at formspree.io and swap in its endpoint ID here —
+// this is a placeholder and submissions will fail until it's replaced.
+const REVIEWS_FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_REVIEWS_FORM_ID";
+
+const reviewForm = document.getElementById('reviewForm');
+const reviewFormMsg = document.getElementById('reviewFormMsg');
+const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
+
+reviewForm.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  reviewSubmitBtn.disabled = true;
+  reviewFormMsg.textContent = '';
+  reviewFormMsg.className = 'form-msg';
+
+  try {
+    const res = await fetch(REVIEWS_FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      body: new FormData(reviewForm),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      reviewFormMsg.textContent = "Thanks for the review! I'll take a look and get it posted.";
+      reviewFormMsg.className = 'form-msg ok';
+      reviewForm.reset();
+    } else {
+      reviewFormMsg.textContent = 'Something went wrong — try emailing directly instead.';
+      reviewFormMsg.className = 'form-msg err';
+    }
+  } catch {
+    reviewFormMsg.textContent = 'Network error — try emailing directly instead.';
+    reviewFormMsg.className = 'form-msg err';
+  } finally {
+    reviewSubmitBtn.disabled = false;
   }
 });
 </script>
